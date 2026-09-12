@@ -7,7 +7,7 @@
 [![Cryptography](https://img.shields.io/badge/Provenance-SHA--256%20%2B%20Ed25519-green)](https://en.wikipedia.org/wiki/EdDSA)
 [![Security Policy](https://img.shields.io/badge/Policy-Zero--Reach-red)](https://github.com)
 
-Sentinel-MCP is an inline security gateway situated between AI agents and MCP tool servers. It enforces real-time threat inspection, SHA-256 tool provenance verification, and **Zero-Reach** execution blocking against malicious requests.
+Arachne is an inline security gateway situated between AI agents and MCP tool servers. It enforces real-time threat inspection, SHA-256 tool provenance verification, and **Zero-Reach** execution blocking against malicious requests.
 
 ---
 
