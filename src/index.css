@@ -1,0 +1,240 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+
+  --terminal-bg: #280909;
+  --terminal-black: #080808;
+  --terminal-amber: #C09C00;
+  --terminal-amber-bright: #E0DBA5;
+  --terminal-amber-dim: #A58B21;
+  --terminal-green: #13A10D;
+  --terminal-green-bright: #16C60C;
+  --terminal-cyan: #60D6D6;
+  --terminal-gray: #C6C6C6;
+  --terminal-muted: #77775F;
+  --terminal-border: #5A4A00;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Mono', Consolas, monospace;
+  background-color: var(--terminal-bg);
+  color: var(--terminal-amber-bright);
+  overflow-x: hidden;
+}
+
+/* Retro Unix / CRT terminal backdrop */
+.cyber-grid {
+  background-color: var(--terminal-bg);
+  background-size: 100% 100%;
+  background-image:
+    radial-gradient(circle at center, rgba(192, 156, 0, 0.025) 0, transparent 65%);
+}
+
+/* Preserve the existing class without introducing a modern visual effect. */
+.radar-sweep {
+  background: none;
+}
+
+/* Compact terminal scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: #080808;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #5A4A00;
+  border-radius: 0;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #8A7100;
+}
+
+/* Restrained CRT/TUI status glows */
+@keyframes pulseGlowRed {
+  0%, 100% {
+    box-shadow: 0 0 0 rgba(239, 68, 68, 0);
+  }
+  50% {
+    box-shadow: 0 0 12px rgba(239, 68, 68, 0.28);
+  }
+}
+
+@keyframes pulseGlowGreen {
+  0%, 100% {
+    box-shadow: 0 0 0 rgba(19, 161, 13, 0);
+  }
+  50% {
+    box-shadow: 0 0 12px rgba(19, 161, 13, 0.24);
+  }
+}
+
+@keyframes pulseGlowAmber {
+  0%, 100% {
+    box-shadow: 0 0 0 rgba(192, 156, 0, 0);
+  }
+  50% {
+    box-shadow: 0 0 12px rgba(192, 156, 0, 0.28);
+  }
+}
+
+.glow-red {
+  animation: pulseGlowRed 2s infinite;
+}
+
+.glow-green {
+  animation: pulseGlowGreen 2.5s infinite;
+}
+
+.glow-amber {
+  animation: pulseGlowAmber 2s infinite;
+}
+
+@keyframes dataPacketForward {
+  0% { transform: translateX(0); opacity: 0; }
+  20% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { transform: translateX(100%); opacity: 0; }
+}
+
+.animate-data-flow {
+  animation: dataPacketForward 1.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* Terminal palette fitting for common Tailwind utilities still used by the UI.
+   These are presentation-only overrides; application behavior is unchanged. */
+.bg-black\/40,
+.bg-black\/50,
+.bg-black\/70 {
+  background-color: #050505 !important;
+}
+
+.text-emerald-400 {
+  color: var(--terminal-green-bright) !important;
+}
+
+.text-emerald-300 {
+  color: #78D66A !important;
+}
+
+.bg-emerald-500 {
+  background-color: var(--terminal-green) !important;
+}
+
+.bg-emerald-500\/15,
+.bg-emerald-500\/20 {
+  background-color: rgba(19, 161, 13, 0.14) !important;
+}
+
+.border-emerald-500,
+.border-emerald-500\/30,
+.border-emerald-500\/40,
+.border-emerald-500\/50 {
+  border-color: rgba(19, 161, 13, 0.65) !important;
+}
+
+.bg-red-500 {
+  background-color: #D84040 !important;
+}
+
+.text-red-400 {
+  color: #F05A5A !important;
+}
+
+.text-red-300 {
+  color: #FF8A8A !important;
+}
+
+.border-red-500,
+.border-red-500\/30,
+.border-red-500\/40,
+.border-red-500\/60 {
+  border-color: rgba(216, 64, 64, 0.7) !important;
+}
+
+.bg-red-500\/15,
+.bg-red-500\/20,
+.bg-red-950\/20,
+.bg-red-950\/30,
+.bg-red-950\/40 {
+  background-color: rgba(90, 18, 18, 0.28) !important;
+}
+
+.text-amber-400 {
+  color: var(--terminal-amber) !important;
+}
+
+.text-amber-300 {
+  color: #D6B52A !important;
+}
+
+.text-amber-200 {
+  color: var(--terminal-amber-bright) !important;
+}
+
+.bg-amber-500 {
+  background-color: var(--terminal-amber) !important;
+}
+
+.bg-amber-500\/20 {
+  background-color: rgba(192, 156, 0, 0.16) !important;
+}
+
+.border-amber-500,
+.border-amber-500\/30,
+.border-amber-500\/40,
+.border-amber-500\/50,
+.border-amber-500\/60 {
+  border-color: rgba(192, 156, 0, 0.7) !important;
+}
+
+.bg-amber-950\/20,
+.bg-amber-950\/30,
+.bg-amber-950\/40 {
+  background-color: rgba(75, 61, 0, 0.28) !important;
+}
+
+.bg-rose-500\/20 {
+  background-color: rgba(180, 50, 70, 0.16) !important;
+}
+
+.border-rose-500\/40 {
+  border-color: rgba(180, 50, 70, 0.65) !important;
+}
+
+.text-rose-400 {
+  color: #D86A7A !important;
+}
+
+/* Terminal-like selection and focus treatment */
+::selection {
+  background: rgba(192, 156, 0, 0.28);
+  color: #F0EBC5;
+}
+
+button,
+select,
+textarea {
+  font-family: inherit;
+}
+
+button:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 1px solid var(--terminal-amber);
+  outline-offset: 1px;
+}

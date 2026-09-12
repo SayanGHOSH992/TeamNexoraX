@@ -1,0 +1,6 @@
+{
+  "appName": "sentinel-demo",
+  "environment": "production",
+  "mcpProtocolVersion": "2024-11-05",
+  "healthy": true
+}

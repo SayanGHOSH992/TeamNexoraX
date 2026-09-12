@@ -1,0 +1,40 @@
+{
+  "name": "sentinel-mcp-firewall",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently -n \"BACKEND,FRONTEND\" -c \"blue,green\" \"npm run server\" \"npm run client\"",
+    "server": "node server/index.js",
+    "client": "vite --port 5174",
+    "build": "vite build",
+    "start": "node server/index.js",
+    "test": "node tests/verify_firewall.js",
+    "test:e2e": "node tests/e2e.test.js",
+    "test:security": "node tests/security_capabilities.test.js",
+    "test:presets": "node tests/test_ui_presets.js",
+    "test:custom": "node tests/custom_prompts.test.js",
+    "test:stale": "node tests/stale_state_regression.test.js",
+    "test:all": "node tests/verify_firewall.js && node tests/e2e.test.js && node tests/security_capabilities.test.js && node tests/test_ui_presets.js && node tests/custom_prompts.test.js && node tests/stale_state_regression.test.js",
+    "preview": "vite preview --port 5174"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "lucide-react": "^0.453.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "node-fetch": "^3.3.2",
+    "uuid": "^10.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.3",
+    "autoprefixer": "^10.4.20",
+    "concurrently": "^9.0.1",
+    "postcss": "^8.4.47",
+    "tailwindcss": "^3.4.14",
+    "sqlite3": "^5.1.7"
+  }
+}

@@ -1,0 +1,3 @@
+🚀 Real MCP Server listening on http://localhost:3003
+🛡️ Sentinel-MCP Firewall & Provenance Server running on http://localhost:3002
+[2026-09-11T18:21:02.068Z] GET /api/health
