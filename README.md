@@ -1,119 +1,118 @@
-# 🛡️ Sentinel-MCP | Runtime AI Agent Firewall & Cryptographic Provenance Layer
+# 🛡️ Arachne
 
-> **Hackathon Submission**: A production-grade runtime firewall and cryptographic provenance verification layer situated strictly between an AI Agent and MCP servers/tools, performing continuous verification of integrity and behavior.
+> **Runtime AI Agent Firewall & Cryptographic Provenance Layer for Model Context Protocol (MCP)**
 
----
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![MCP Protocol](https://img.shields.io/badge/MCP-JSON--RPC%202.0-blueviolet)](https://modelcontextprotocol.io)
+[![Cryptography](https://img.shields.io/badge/Provenance-SHA--256%20%2B%20Ed25519-green)](https://en.wikipedia.org/wiki/EdDSA)
+[![Security Policy](https://img.shields.io/badge/Policy-Zero--Reach-red)](https://github.com)
 
-## 🌟 Key Architecture & Capabilities
-
-### 1. Interceptor & Proxy Middleware
-- Sits inline between any AI Agent orchestrator and MCP tool runtimes.
-- Intercepts requests in real time, inspecting prompts, parameter payloads, and tool metadata **before execution**.
-
-### 2. Cryptographic SHA-256 Provenance Verification
-- Computes canonical SHA-256 digests of tool code, schemas, and signatures.
-- Rejects any tampered, modified, or unauthorized tool with an **Integrity Failure Block** before tool runtime execution.
-
-### 3. Dynamic Multi-Vector Threat Engine (0–100 Real-Time Score)
-- **Zero Static Keyword Lists**: Employs structural entropy, adversarial delimiter detection, and linguistic intent analysis.
-- **Three Risk Vectors**:
-  1. **Intent Analysis**: Prompt injection, role hijacking (`DAN`, system overrides), data exfiltration channels (outbound webhooks, markdown leaks).
-  2. **Schema & Boundary Violations**: Parameter length overflows, SQL injection patterns, command chaining, path traversal sequences (`../../etc/shadow`).
-  3. **Behavior Drift Detection**: Statistical frequency anomalies, velocity spikes, and unauthorized tool transitions.
-- **Threshold Policy**: If `Threat Score > 50`, request is intercepted, quarantined, and dropped immediately.
-
-### 4. Interactive Hackathon Demo Dashboard
-- **Section A: Live Attack Test Bench**:
-  - Open prompt editor for judges to type any arbitrary attack payload.
-  - **Firewall Guard Toggle (ON / OFF)**:
-    - **ON**: Intercepts attacks, blocks malicious tools, returns sanitized explanations.
-    - **OFF**: Demonstrates the raw vulnerability by showing simulated data breach / credential leaks!
-  - 3 Quick-Action Buttons for judges:
-    1. *Safe Request* (Normal Gmail query)
-    2. *Prompt Injection Attack* (Command override & Exfiltration)
-    3. *Tampered Tool / Provenance Failure* (Modified tool code execution)
-- **Section B: Interactive Architecture Pipeline Visualizer**:
-  - Live animated visual data path: `[ AI Agent ] ──> [ Sentinel Proxy ] ──> [ MCP Server ]`.
-  - Visual color states: **Green** (Safe), **Red Alert** (Firewall Intercepted), **Amber** (Compromised when Firewall is OFF).
-- **Section C: Real-Time Telemetry & Forensics Terminal**:
-  - Live security indicator (`SECURE` / `THREAT DETECTED` / `COMPROMISED`).
-  - Real-time latency tracking (sub-12ms inspection overhead).
-  - Multi-vector risk breakdown (Intent / Schema / Drift).
-  - Forensic execution log with copyable audit records.
-- **Bonus: Live Tool Registry & Supply Chain Tamper Lab**:
-  - One-click tool code tampering to demonstrate real-time cryptographic provenance failure.
+Sentinel-MCP is an inline security gateway situated between AI agents and MCP tool servers. It enforces real-time threat inspection, SHA-256 tool provenance verification, and **Zero-Reach** execution blocking against malicious requests.
 
 ---
 
-## 🚀 Quick Start Instructions
+## ⚡ Key Features
 
-### Prerequisites
-- **Node.js**: v18 or higher (v20+ recommended)
-- **npm**: v9 or higher
+- **Inline JSON-RPC 2.0 Gateway**: Transparently proxies MCP methods (`initialize`, `tools/list`, `tools/call`).
+- **Cryptographic Provenance**: SHA-256 golden hash verification for tool code + Ed25519 payload signatures.
+- **Multi-Vector Threat Engine**: Real-time 0–100 scoring for prompt injections, jailbreaks, data exfiltration, SQLi, and path traversal.
+- **Zero-Reach Guarantee**: Blocked or tampered calls are dropped before reaching downstream tool runtimes.
+- **Interactive Dashboard**: Cyber-defense control center with attack simulation bench, pipeline visualizer, and live forensics telemetry.
+- **Persistent Telemetry**: SQLite-backed audit trails (`server/mcp.db`) capturing inspection verdicts and latency metrics.
 
-### 1. Install Dependencies
+---
+
+## 🏗️ Architecture & Data Flow
+
+```
+[ AI Agent Orchestrator ]
+         │ (Signed JSON-RPC 2.0)
+         ▼
+[ Sentinel Gateway :3002 ] ──> [ Provenance & Threat Engine ]
+         │
+         ├─── (Threat Score > 50 OR Hash Mismatch) ──> 🚫 Blocked (Zero-Reach)
+         │
+         └─── (Verified & Score <= 50)
+                     │
+                     ▼
+         [ Downstream MCP Server :3003 ] ──> [ Sandboxed Tools ]
+```
+
+---
+
+## 🚀 Quick Start & Deployment
+
+### 1. Installation
+
 ```bash
+git clone <repository-url>
+cd nexora
 npm install
 ```
 
-### 2. Run Automated Verification Tests
-```bash
-node tests/verify_firewall.js
-```
-*Expected: 10/10 assertions pass (cryptographic provenance, prompt injection interception, SQL boundary escape, and bypass simulation).*
+### 2. Development Mode
 
-### 3. Launch the Application (Backend + Frontend)
+Starts the Gateway (Port `3002`), Downstream MCP Server (Port `3003`), and Web Dashboard (Port `5174`):
+
 ```bash
 npm run dev
 ```
 
-- **Frontend Dashboard**: Open your browser at [http://localhost:5174](http://localhost:5174)
-- **Backend API Server**: Runs on [http://localhost:3002](http://localhost:3002)
+- **Dashboard**: [http://localhost:5174](http://localhost:5174)
+- **Sentinel Gateway**: [http://localhost:3002](http://localhost:3002)
+- **Downstream MCP Server**: [http://localhost:3003](http://localhost:3003)
+
+### 3. Production Deployment
+
+```bash
+# Build optimized frontend bundle
+npm run build
+
+# Start unified production server
+npm start
+```
 
 ---
 
-## 🧪 Hackathon Judge Demo Script
+## 📡 API Reference
 
-1. **Step 1: Normal Operation (Safe Request)**
-   - Click the quick-action button **"1. Safe Request"**.
-   - Click **"Run Inspection"**.
-   - Notice: Threat Score is 0–15, Provenance is **VERIFIED**, Pipeline lights up **Green**, and authentic Gmail inbox results are returned.
+### MCP JSON-RPC 2.0 (`POST /mcp`)
 
-2. **Step 2: Prompt Injection & Exfiltration Defense**
-   - Click **"2. Prompt Injection Attack"** (with Firewall Guard **ON**).
-   - Click **"Run Inspection"**.
-   - Notice: Threat Score spikes to 92/100, Pipeline flashes **Red Barrier** at the Firewall Proxy, the tool is never invoked, and a sanitized security block notice is displayed.
+- **`initialize`**: Protocol handshake & capability negotiation.
+- **`tools/list`**: Returns registered tools enriched with provenance verification state.
+- **`tools/call`**: Intercepts, scores, and proxies tool execution.
 
-3. **Step 3: Demonstrating the Danger (Firewall OFF)**
-   - Toggle the **Firewall Guard** switch to **OFF**.
-   - Click **"Run Inspection"**.
-   - Notice: The pipeline turns **Amber/Red Warning**, status shows **COMPROMISED**, and simulated executive credential leaks and confidential memos are dumped.
+### REST Endpoints
 
-4. **Step 4: Cryptographic Provenance Failure (Supply Chain Attack)**
-   - Turn the **Firewall Guard** back **ON**.
-   - In the **MCP Tool Registry & Provenance Lab** (lower left), click **"Inject Tamper Code"** on any tool (or click Quick-Action **"3. Tampered Tool / Provenance Failure"**).
-   - Click **"Run Inspection"**.
-   - Notice: Cryptographic SHA-256 mismatch is immediately flagged, status changes to **INTEGRITY FAILURE**, and execution is strictly blocked before the backdoored tool code can run!
+| Endpoint | Method | Description |
+|---|---|---|
+| `/api/inspect` | `POST` | Inspect and execute an agent request through the firewall |
+| `/api/tools` | `GET` | List all tools with SHA-256 provenance status |
+| `/api/tools/:id/tamper` | `POST` | Tamper a tool's code hash (simulating supply-chain attack) |
+| `/api/tools/reset` | `POST` | Reset all tools to canonical golden hashes |
+| `/api/telemetry` | `GET` | Retrieve persistent audit and telemetry logs |
+| `/api/health` | `GET` | Service health check |
 
 ---
 
-## 📂 Project Structure
+## 🧪 Testing
 
+```bash
+# Run core verification suite (10/10 assertions)
+npm test
+
+# Run end-to-end integration tests
+npm run test:e2e
+
+# Run security & zero-reach validations
+npm run test:security
+
+# Run all test suites
+npm run test:all
 ```
-agent-firewall-demo/
-├── server/
-│   ├── index.js          # Express API server & telemetry endpoints
-│   ├── proxy.js          # Interceptor middleware & simulation runtime
-│   ├── provenance.js     # Cryptographic SHA-256 tool registry & tamper simulation
-│   └── threatEngine.js   # Dynamic semantic & heuristic multi-vector engine
-├── src/
-│   ├── App.jsx           # Cyber-defense React dashboard with 3 main sections
-│   ├── index.css         # Dark theme styling, glowing keyframes, cyber-grid
-│   └── main.jsx          # React DOM entry point
-├── tests/
-│   └── verify_firewall.js # Automated verification test suite
-├── index.html            # Single page app template
-├── vite.config.js        # Vite dev & proxy config
-├── tailwind.config.js    # Cyber theme color tokens & animations
-└── package.json          # Full stack scripts & dependencies
-```
+
+---
+
+## 📄 License
+
+MIT License. See [LICENSE](LICENSE) for details.
