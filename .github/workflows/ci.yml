@@ -1,0 +1,68 @@
+name: CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+  workflow_dispatch:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout repository
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Setup Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      # Install dependencies
+      - name: Install dependencies
+        run: npm ci
+
+      # Build React + Vite frontend
+      - name: Build frontend
+        run: npm run build
+
+      # Run firewall verification tests
+      - name: Run firewall tests
+        run: npm test
+
+      # Run end-to-end tests
+      - name: Run E2E tests
+        run: npm run test:e2e
+
+      # Run security capability tests
+      - name: Run security tests
+        run: npm run test:security
+
+      # Run UI preset tests
+      - name: Run preset tests
+        run: npm run test:presets
+
+      # Run custom prompt tests
+      - name: Run custom prompt tests
+        run: npm run test:custom
+
+      # Run stale-state regression tests
+      - name: Run regression tests
+        run: npm run test:stale
+
+      # Verify Vite production build
+      - name: Verify production build
+        run: |
+          if [ -d "dist" ]; then
+            echo "✅ Vite production build successful."
+            echo "Build contents:"
+            ls -la dist
+          else
+            echo "❌ Build failed: dist directory not found."
+            exit 1
+          fi
